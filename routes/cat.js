@@ -17,9 +17,6 @@ router.post(
       .isEmpty()
       .trim()
       .escape(),
-    sanitizeBody('imgUri')
-      .trim()
-      .escape(),
     sanitizeBody('title')
       .trim()
       .escape(),
@@ -56,6 +53,20 @@ router.get('/getList', function(req, res, next) {
   db.connect(process.env.DEFAULT_URI).then(
     () => {
       db.getCats().then(response => {
+        res.json({ response });
+        db.disconnect();
+      });
+    },
+    err => {
+      res.status(500).json({ error: true, message: err });
+    }
+  );
+});
+
+router.get('/getSingleCat', function(req, res, next) {
+  db.connect(process.env.DEFAULT_URI).then(
+    () => {
+      db.getSingleCat(req.body).then(response => {
         res.json({ response });
         db.disconnect();
       });
