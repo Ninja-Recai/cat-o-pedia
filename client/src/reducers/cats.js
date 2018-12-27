@@ -9,11 +9,11 @@ const initialState = {
   successMessage: '',
   fetchReply: {},
   cats: [
-    {
-      imgUri: 'https://i.chzbgr.com/full/9013910528/hAB49129F/',
-      title: 'Evil cat with wöter',
-      desc: 'I nöck de wöter',
-    },
+    // {
+    //   imgUri: 'https://i.chzbgr.com/full/9013910528/hAB49129F/',
+    //   title: 'Evil cat with wöter',
+    //   desc: 'I nöck de wöter',
+    // },
   ],
 };
 
@@ -56,7 +56,7 @@ export const cats = createReducer(initialState, {
       isFetched: true,
       successMessage: action.payload.message,
       errorMessage: '',
-      cats: action.payload,
+      cats: action.payload.response,
     });
   },
   [ActionTypeCat.GET_CATS_FINISHED]: state => R.assoc('isFetched', true, state),
