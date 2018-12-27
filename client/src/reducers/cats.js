@@ -8,6 +8,7 @@ const initialState = {
   errorMessage: '',
   successMessage: '',
   fetchReply: {},
+  currentCat: {},
   cats: [
     // {
     //   imgUri: 'https://i.chzbgr.com/full/9013910528/hAB49129F/',
@@ -60,4 +61,28 @@ export const cats = createReducer(initialState, {
     });
   },
   [ActionTypeCat.GET_CATS_FINISHED]: state => R.assoc('isFetched', true, state),
+
+  [ActionTypeCat.GET_SINGLE_CAT_FETCH]: state =>
+    R.assoc('isFetching', true, state),
+  [ActionTypeCat.GET_SINGLE_CAT_FETCHED]: (state, action) => {
+    if (action.payload.error) {
+      return R.merge(state, {
+        fetchReply: action.payload,
+        errorMessage: action.payload.message,
+        successMessage: '',
+        isFetching: false,
+        isFetched: false,
+      });
+    }
+    return R.merge(state, {
+      fetchReply: action.payload,
+      isFetching: false,
+      isFetched: true,
+      successMessage: action.payload.message,
+      errorMessage: '',
+      currentCat: action.payload.response,
+    });
+  },
+  [ActionTypeCat.GET_SINGLE_CAT_FINISHED]: state =>
+    R.assoc('isFetched', true, state),
 });

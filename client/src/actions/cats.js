@@ -23,3 +23,15 @@ export const getCats = payload => ({
     },
   },
 });
+
+export const getSingleCat = payload => ({
+  type: ActionTypeCat.GET_SINGLE_CAT,
+  payload,
+  meta: {
+    fetch: {
+      pathname: `/cats/getSingleCat/${payload}`,
+      type: 'SINGLE',
+      method: 'GET',
+    },
+  },
+});

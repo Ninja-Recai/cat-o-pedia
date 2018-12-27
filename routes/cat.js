@@ -63,10 +63,10 @@ router.get('/getList', function(req, res, next) {
   );
 });
 
-router.get('/getSingleCat', function(req, res, next) {
+router.get('/getSingleCat/:cat', function(req, res, next) {
   db.connect(process.env.DEFAULT_URI).then(
     () => {
-      db.getSingleCat(req.body).then(response => {
+      db.getSingleCat(req.params.cat).then(response => {
         res.json({ response });
         db.disconnect();
       });

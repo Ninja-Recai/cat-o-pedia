@@ -8,6 +8,8 @@ export const ActionTypeCat = createActionTypes('cats', [
   ...fetchActions('ADD_CAT'),
   'GET_CATS',
   ...fetchActions('GET_CATS'),
+  'GET_SINGLE_CAT',
+  ...fetchActions('GET_SINGLE_CAT'),
 ]);
 
 export const ActionTypeForm = createActionTypes('form', ['UPDATE_FIELD']);

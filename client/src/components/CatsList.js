@@ -18,6 +18,7 @@ export const PlainList = styled.div`
 export class CatsList extends Component {
   static propTypes = {
     cats: PropTypes.arrayOf(PropTypes.object).isRequired,
+    getCats: PropTypes.func,
   };
 
   componentDidMount() {

@@ -4,7 +4,7 @@ import HomePage from 'containers/Home';
 import NotFound from 'containers/NotFound';
 import AppHeader from 'components/AppHeader';
 import CatsListPage from '../Cats';
-import { Cat } from 'components/Cat';
+import CatContainer from 'containers/Cat';
 
 class App extends PureComponent {
   render() {
@@ -16,7 +16,7 @@ class App extends PureComponent {
             <Switch>
               <Route exact path="/" component={CatsListPage} />
               <Route exact path="/add" component={HomePage} />
-              <Route path="/cat/:id" component={Cat} />
+              <Route path="/cat/:id" component={CatContainer} />
               <Route component={NotFound} />
             </Switch>
           </div>

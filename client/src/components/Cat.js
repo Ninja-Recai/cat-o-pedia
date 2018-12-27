@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -19,6 +19,7 @@ const PlainCat = styled.div`
       img {
         object-fit: cover;
         object-position: center center;
+        width: 100%;
       }
 
       &::after {
@@ -41,17 +42,28 @@ const PlainCat = styled.div`
   }
 `;
 
-export class Cat extends PureComponent {
+export class Cat extends Component {
   static propTypes = {
     imgUri: PropTypes.string,
     title: PropTypes.string,
     desc: PropTypes.string,
     maxLength: PropTypes.number,
+    getSingleCat: PropTypes.func,
+    params: PropTypes.object,
+  };
+
+  componentDidMount() {
+    if (this.props.params) {
+      this.fetchCat(this.props.params.id);
+    }
+  }
+
+  fetchCat = cat => {
+    this.props.getSingleCat(cat);
   };
 
   render() {
     // console.log(this.props.match.params);
-    // console.log(this.props.cats);
     return (
       <PlainCat className="cat">
         <div className="cat__img">

@@ -93,6 +93,26 @@ class DB {
     });
   }
 
+  getSingleCat(title) {
+    return new Promise((resolve, reject) => {
+      Cat.findOne(
+        {
+          title: title || null,
+        },
+        function(err, cat) {
+          if (!cat) {
+            reject({
+              ok: false,
+              message: `Cat with title ${title} does not exist.`,
+            });
+          } else {
+            resolve(cat);
+          }
+        }
+      );
+    });
+  }
+
   getCats() {
     return new Promise((resolve, reject) => {
       Cat.find(function(err, cats) {
