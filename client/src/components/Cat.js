@@ -3,41 +3,56 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const PlainCat = styled.div`
-  &:hover {
-    .cat__img::after {
-      opacity: .5;
-    }
-  }
   .cat {
     &__img {
       width: 100%;
-      height 20rem;
+      height: auto;
       overflow: hidden;
       margin-bottom: 2rem;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
 
       img {
-        object-fit: cover;
-        object-position: center center;
+        max-width: 70rem;
         width: 100%;
+        height: auto;
       }
 
       &::after {
-        content: '';
+        content: '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧';
+        color: ${props => props.theme.dark};
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
         position: absolute;
         top: 0;
         left: 0;
         opacity: 0;
-        transition: opacity .3s linear;
-        background-color: ${props => props.theme.alt};
+        transition: opacity 0.3s linear;
+        background-color: rgba(192, 100, 232, 0.5);
       }
-
     }
+
+    &__desc,
+    &__title {
+      color: ${props => props.theme.white};
+    }
+
     &__desc {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
       font-size: ${props => props.theme.fsSm};
+    }
+
+    &__spacer {
+      margin: 2rem 0;
+      width: 100%;
+      display: block;
+      height: 0.1rem;
+      background-color: ${props => props.theme.alt};
     }
   }
 `;
@@ -63,15 +78,29 @@ export class Cat extends Component {
   };
 
   render() {
-    // console.log(this.props.match.params);
+    let top = '';
+    let bottom = '';
+
+    if (!this.props.maxLength) {
+      top = (
+        <h3 className="cat__title">
+          {this.props.title}
+          <span className="cat__spacer" />
+        </h3>
+      );
+    } else {
+      bottom = <h3 className="cat__title">{this.props.title}</h3>;
+    }
+
     return (
       <PlainCat className="cat">
+        {top}
         <div className="cat__img">
           <img src={this.props.imgUri} alt={this.props.title} />
         </div>
-        <h3 className="cat__title">{this.props.title}</h3>
+        {bottom}
         <p className="cat__desc">
-          {this.props.maxLength
+          {this.props.maxLength && this.props.desc.length > this.props.maxLength
             ? `${this.props.desc.substring(0, this.props.maxLength)} [...]`
             : this.props.desc}
         </p>

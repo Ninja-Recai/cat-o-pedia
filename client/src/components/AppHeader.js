@@ -6,9 +6,10 @@ import H1 from 'components/H1';
 import { themePropType } from '../theme';
 
 const PlainAppHeader = styled.header`
-  background-color: ${props => props.theme.prim};
+  background-color: rgba(22, 15, 46, 0.9);
+  box-shadow: 0 0 20px 15px rgba(0, 0, 0, 0.7);
   ${Container} {
-    padding-bottom: 3rem;
+    padding: 1rem 1.5rem 3rem;
   }
   .desc {
     color: ${props => props.theme.white};
@@ -19,7 +20,6 @@ const PlainAppHeader = styled.header`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 2rem;
   }
   li a {
     color: ${props => props.theme.white};
@@ -40,6 +40,12 @@ const PlainAppHeader = styled.header`
       }
     }
   }
+
+  .header__logo {
+    height: 10rem;
+    display: block;
+    margin: 0 auto;
+  }
 `;
 
 class AppHeader extends PureComponent {
@@ -51,6 +57,11 @@ class AppHeader extends PureComponent {
     return (
       <PlainAppHeader>
         <Container>
+          <img
+            className="header__logo"
+            src="http://rs298.pbsrc.com/albums/mm272/nancysthings/Ron/cats38.gif~c200"
+            alt="Cat-o-pedia"
+          />
           <H1
             color={this.props.theme.white}
             fontSize={this.props.theme.fsLg}

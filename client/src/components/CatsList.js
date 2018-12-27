@@ -6,12 +6,29 @@ import { Cat } from './Cat';
 export const PlainList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   a {
     width: calc(100% / 3 - 2rem);
+    padding-bottom: 2.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 0.1rem solid ${props => props.theme.alt};
+    &:not(:nth-child(3n)) {
+      margin-right: 2rem;
+    }
+    &:hover {
+      .cat__img::after {
+        opacity: 1;
+      }
+    }
   }
-  img {
-    width: 100%;
+  .cat {
+    &__img {
+      height: 20vw;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
   }
 `;
 

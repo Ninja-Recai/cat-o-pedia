@@ -14,12 +14,7 @@ router.post(
       .isEmpty(),
     body('title', 'Please specify a title')
       .not()
-      .isEmpty()
-      .trim()
-      .escape(),
-    sanitizeBody('title')
-      .trim()
-      .escape(),
+      .isEmpty(),
   ],
   (req, res) => {
     const errors = validationResult(req);
