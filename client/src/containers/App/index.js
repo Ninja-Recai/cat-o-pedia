@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/Home';
 import NotFound from 'containers/NotFound';
 import AppHeader from 'components/AppHeader';
+import CatsListPage from '../Cats';
 
 class App extends PureComponent {
   render() {
@@ -11,8 +12,8 @@ class App extends PureComponent {
         <AppHeader />
         <Router>
           <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="cats" />
+            <Route exact path="form" component={HomePage} />
+            <Route exact path="/" component={CatsListPage} />
             <Route component={NotFound} />
           </Switch>
         </Router>

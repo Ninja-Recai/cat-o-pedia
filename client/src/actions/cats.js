@@ -11,3 +11,15 @@ export const addCat = payload => ({
     },
   },
 });
+
+export const getCats = payload => ({
+  type: ActionTypeCat.GET_CATS,
+  payload,
+  meta: {
+    fetch: {
+      pathname: '/cats/getList',
+      type: 'SINGLE',
+      method: 'GET',
+    },
+  },
+});
