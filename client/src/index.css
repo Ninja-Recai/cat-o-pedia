@@ -7,6 +7,11 @@ body {
   background-size: cover;
   background-position: center bottom;
 }
+* {
+  cursor: url('/img/rsz_25035.png'), auto;
+  /* cursor: none; */
+}
+
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
