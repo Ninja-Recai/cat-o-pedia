@@ -81,8 +81,22 @@ export class Cat extends Component {
   componentDidMount() {
     if (this.props.params) {
       this.fetchCat(this.props.params.id);
+      this.fetchCats();
     }
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.cats !== this.props.cats && prevState !== this.state) {
+      this.fetchCats();
+    }
+
+    if (this.props.params !== prevProps.params && this.props.params) {
+      this.fetchCat(this.props.params.id);
+    }
+  }
+  fetchCats = () => {
+    this.props.getCats();
+  };
 
   fetchCat = cat => {
     this.props.getSingleCat(cat);
@@ -98,15 +112,35 @@ export class Cat extends Component {
     let bottom = '';
 
     if (!this.props.maxLength) {
+      const catIndex = this.props.cats.findIndex(obj => {
+        return obj.title === this.props.title;
+      });
+
       top = (
         <React.Fragment>
           <div className="button-container">
-            <Link to={`/cat/`}>
-              <Button className="margin--top">Previous cat</Button>
-            </Link>
-            <Link to={`/cat/`}>
-              <Button className="margin--top">Next cat</Button>
-            </Link>
+            {catIndex !== 0 && (
+              <Link
+                to={`/cat/${
+                  this.props.cats[catIndex - 1]
+                    ? this.props.cats[catIndex - 1].title
+                    : ''
+                }`}
+              >
+                <Button className="margin--top">Previous cat</Button>
+              </Link>
+            )}
+            {catIndex !== this.props.cats.length - 1 && (
+              <Link
+                to={`/cat/${
+                  this.props.cats[catIndex + 1]
+                    ? this.props.cats[catIndex + 1].title
+                    : ''
+                }`}
+              >
+                <Button className="margin--top">Next cat</Button>
+              </Link>
+            )}
           </div>
           <h3 className="cat__title">
             {this.props.title}
