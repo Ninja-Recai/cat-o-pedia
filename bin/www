@@ -4,7 +4,6 @@
 
 // Location of the main express application module (`app.js`)
 var app = require('../app');
-var debug = require('debug')('test:server');
 var http = require('http');
 
 // Get the enviroment port and store it in Express.
@@ -70,5 +69,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('\x1b[36m%s\x1b[0m', 'Listening on ' + bind);
 }
