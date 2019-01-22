@@ -14,19 +14,28 @@ export const PlainForm = styled.form`
   max-width: 100%;
   padding: 3rem;
   margin: 0 auto;
-  background-color: ${props => props.theme.light};
+  background-color: rgba(255, 255, 255, 0.3);
   ${Row} {
     margin-bottom: 2rem;
   }
   ${H2} {
     margin-bottom: 3rem;
   }
-  ${Button} {
+  .button-container {
     margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    img {
+      margin-left: 0.5rem;
+    }
   }
 `;
 
 class Form extends Component {
+  state = {
+    hoveringButton: false,
+  };
+
   static defaultProps = {
     successMessage: '',
     errorMessage: '',
@@ -50,6 +59,12 @@ class Form extends Component {
   submit = e => {
     e.preventDefault();
     this.props.addCat(this.props.formData);
+  };
+
+  handleHover = e => {
+    this.setState({
+      hoveringButton: !this.state.hoveringButton,
+    });
   };
 
   render() {
@@ -91,9 +106,27 @@ class Form extends Component {
           </ErrorMessage>
         )}
         {this.props.successMessage && (
-          <SuccessMessage>{this.props.successMessage}</SuccessMessage>
+          <React.Fragment>
+            <SuccessMessage>{this.props.successMessage}</SuccessMessage>
+            <img src="https://www.wykop.pl/cdn/c3201142/comment_B5mhAeozAjCIB8ZFpKvXChmSl7IwHXBf.gif" />
+          </React.Fragment>
         )}
-        <Button disabled={this.props.isFetching}>Meow!</Button>
+        <div className="button-container">
+          <Button
+            disabled={this.props.isFetching}
+            onMouseEnter={this.handleHover}
+            onMouseOut={this.handleHover}
+          >
+            Meow!
+          </Button>
+          <img
+            src="https://vignette.wikia.nocookie.net/leagueoflegends/images/c/c5/Excited_Kitten_Emote.png/revision/latest?cb=20171120233851"
+            style={{
+              width: '9rem',
+              visibility: this.state.hoveringButton ? 'visible' : 'hidden',
+            }}
+          />
+        </div>
       </PlainForm>
     );
   }
