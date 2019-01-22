@@ -84,12 +84,6 @@ export class Cat extends Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.params) {
-      this.fetchCat(newProps.params.id);
-    }
-  }
-
   fetchCat = cat => {
     this.props.getSingleCat(cat);
     setTimeout(() => {
