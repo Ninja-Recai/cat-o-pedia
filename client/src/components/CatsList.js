@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Cat } from './Cat';
+import Button from './Button';
+import { Link } from 'react-router-dom';
 
 export const PlainList = styled.div`
   display: flex;
@@ -33,6 +35,10 @@ export const PlainList = styled.div`
 `;
 
 export class CatsList extends Component {
+  state = {
+    visibleItems: 3,
+  };
+
   static propTypes = {
     cats: PropTypes.arrayOf(PropTypes.object).isRequired,
     getCats: PropTypes.func,
@@ -46,21 +52,36 @@ export class CatsList extends Component {
     this.props.getCats();
   };
 
-  render() {
-    const cats = this.props.cats.map(cat => {
-      const link = `cat/${cat.title}`;
-      return (
-        <a href={link} key={cat.title}>
-          <Cat
-            imgUri={cat.imgUri}
-            title={cat.title}
-            desc={cat.desc}
-            maxLength={150}
-            cats={this.props.cats}
-          />
-        </a>
-      );
+  showMoreItems = () => {
+    this.setState({
+      visibleItems: this.state.visibleItems + 3,
     });
-    return <PlainList>{cats}</PlainList>;
+  };
+
+  render() {
+    const cats = this.props.cats
+      .slice(0, this.state.visibleItems)
+      .map((cat, index, cats) => {
+        const link = `cat/${cat.title}`;
+        return (
+          <Link to={link} key={cat.title} className="fade-in">
+            <Cat
+              imgUri={cat.imgUri}
+              title={cat.title}
+              desc={cat.desc}
+              maxLength={150}
+              cats={this.props.cats}
+            />
+          </Link>
+        );
+      });
+    return (
+      <React.Fragment>
+        <PlainList>{cats}</PlainList>
+        {this.state.visibleItems < this.props.cats.length && (
+          <Button onClick={this.showMoreItems}> Show me more memes! </Button>
+        )}
+      </React.Fragment>
+    );
   }
 }

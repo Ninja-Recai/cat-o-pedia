@@ -11,7 +11,10 @@ class CatPage extends PureComponent {
   render() {
     return (
       <Container>
-        <CatContainer params={this.props.match.params} />
+        <CatContainer
+          params={this.props.match.params}
+          query={this.props.location.search}
+        />
       </Container>
     );
   }

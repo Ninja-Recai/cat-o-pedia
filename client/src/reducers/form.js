@@ -17,4 +17,15 @@ export const form = createReducer(initialState, {
       action.payload.value,
       state
     ),
+
+  [ActionTypeForm.RESET_FORM]: (state, action) =>
+    R.assoc(
+      'formData',
+      {
+        imgUri: '',
+        title: '',
+        desc: '',
+      },
+      state
+    ),
 });

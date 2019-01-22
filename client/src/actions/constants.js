@@ -12,4 +12,7 @@ export const ActionTypeCat = createActionTypes('cats', [
   ...fetchActions('GET_SINGLE_CAT'),
 ]);
 
-export const ActionTypeForm = createActionTypes('form', ['UPDATE_FIELD']);
+export const ActionTypeForm = createActionTypes('form', [
+  'UPDATE_FIELD',
+  'RESET_FORM',
+]);

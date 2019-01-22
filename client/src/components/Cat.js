@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Button from 'components/Button';
+import { Link } from 'react-router-dom';
 
 const PlainCat = styled.div`
   .cat {
@@ -55,9 +57,18 @@ const PlainCat = styled.div`
       background-color: ${props => props.theme.alt};
     }
   }
+  .button-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    justify-content: space-between;
+  }
 `;
 
 export class Cat extends Component {
+  state = {
+    catFetched: this.props.maxLength ? true : false,
+  };
   static propTypes = {
     imgUri: PropTypes.string,
     title: PropTypes.string,
@@ -73,8 +84,19 @@ export class Cat extends Component {
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.params) {
+      this.fetchCat(newProps.params.id);
+    }
+  }
+
   fetchCat = cat => {
     this.props.getSingleCat(cat);
+    setTimeout(() => {
+      this.setState({
+        catFetched: true,
+      });
+    }, 600);
   };
 
   render() {
@@ -83,28 +105,43 @@ export class Cat extends Component {
 
     if (!this.props.maxLength) {
       top = (
-        <h3 className="cat__title">
-          {this.props.title}
-          <span className="cat__spacer" />
-        </h3>
+        <React.Fragment>
+          <div className="button-container">
+            <Link to={`/cat/`}>
+              <Button className="margin--top">Previous cat</Button>
+            </Link>
+            <Link to={`/cat/`}>
+              <Button className="margin--top">Next cat</Button>
+            </Link>
+          </div>
+          <h3 className="cat__title">
+            {this.props.title}
+            <span className="cat__spacer" />
+          </h3>
+        </React.Fragment>
       );
     } else {
       bottom = <h3 className="cat__title">{this.props.title}</h3>;
     }
 
     return (
-      <PlainCat className="cat">
-        {top}
-        <div className="cat__img">
-          <img src={this.props.imgUri} alt={this.props.title} />
-        </div>
-        {bottom}
-        <p className="cat__desc">
-          {this.props.maxLength && this.props.desc.length > this.props.maxLength
-            ? `${this.props.desc.substring(0, this.props.maxLength)} [...]`
-            : this.props.desc}
-        </p>
-      </PlainCat>
+      <React.Fragment>
+        {this.state.catFetched && (
+          <PlainCat className="cat fade-in">
+            {top}
+            <div className="cat__img">
+              <img src={this.props.imgUri} alt={this.props.title} />
+            </div>
+            {bottom}
+            <p className="cat__desc">
+              {this.props.maxLength &&
+              this.props.desc.length > this.props.maxLength
+                ? `${this.props.desc.substring(0, this.props.maxLength)} [...]`
+                : this.props.desc}
+            </p>
+          </PlainCat>
+        )}
+      </React.Fragment>
     );
   }
 }

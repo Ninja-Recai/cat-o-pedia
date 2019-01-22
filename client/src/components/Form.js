@@ -59,6 +59,11 @@ class Form extends Component {
   submit = e => {
     e.preventDefault();
     this.props.addCat(this.props.formData);
+    this.props.resetForm();
+
+    this.setState({
+      hoveringButton: false,
+    });
   };
 
   handleHover = e => {
@@ -108,7 +113,10 @@ class Form extends Component {
         {this.props.successMessage && (
           <React.Fragment>
             <SuccessMessage>{this.props.successMessage}</SuccessMessage>
-            <img src="https://www.wykop.pl/cdn/c3201142/comment_B5mhAeozAjCIB8ZFpKvXChmSl7IwHXBf.gif" />
+            <img
+              src="https://www.wykop.pl/cdn/c3201142/comment_B5mhAeozAjCIB8ZFpKvXChmSl7IwHXBf.gif"
+              alt="dancing cat"
+            />
           </React.Fragment>
         )}
         <div className="button-container">
@@ -125,6 +133,7 @@ class Form extends Component {
               width: '9rem',
               visibility: this.state.hoveringButton ? 'visible' : 'hidden',
             }}
+            alt="excited cat"
           />
         </div>
       </PlainForm>

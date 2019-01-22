@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { addCat } from 'actions/cats';
-import { updateField } from 'actions/form';
+import { updateField, resetForm } from 'actions/form';
 import Form from 'components/Form';
 
 const mapStateToProps = state => ({
@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   addCat,
   updateField,
+  resetForm,
 };
 
 const FormContainer = connect(
