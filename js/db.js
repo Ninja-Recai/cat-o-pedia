@@ -5,6 +5,7 @@ const catSchema = mongoose.Schema(
     imgUri: String,
     title: String,
     desc: String,
+    likes: Number,
   },
   {
     collection: process.env.DEFAULT_COLLECTION,
@@ -55,6 +56,7 @@ class DB {
           imgUri: obj.imgUri || null,
           title: obj.title || null,
           desc: obj.desc || null,
+          likes: 0,
         },
         function(err, cat) {
           if (!cat) {
@@ -106,7 +108,19 @@ class DB {
               message: `Cat with title ${title} does not exist.`,
             });
           } else {
-            resolve(cat);
+            Cat.find({ _id: { $lt: cat.id } }, function(err, prev) {
+              Cat.find({ _id: { $gt: cat.id } }, function(err, next) {
+                resolve({
+                  cat,
+                  prev,
+                  next,
+                });
+              })
+                .sort({ _id: 1 })
+                .limit(1);
+            })
+              .sort({ _id: -1 })
+              .limit(1);
           }
         }
       );
@@ -118,7 +132,7 @@ class DB {
       Cat.find(function(err, cats) {
         if (err) reject(err);
         resolve(cats);
-      });
+      }).sort({ _id: -1 });
     });
   }
 
@@ -126,6 +140,20 @@ class DB {
     return new Promise(resolve => {
       Cat.remove({}, function() {
         resolve('Database was cleaned succesfully');
+      });
+    });
+  }
+
+  addLike(title) {
+    return new Promise((resolve, reject) => {
+      Cat.findOne({ title: title }, (err, cat) => {
+        const likes = cat.likes;
+
+        cat.likes = likes + 1;
+
+        cat.save((err, elem) => {
+          resolve(elem);
+        });
       });
     });
   }

@@ -9,10 +9,16 @@ export const PlainList = styled.div`
   display: flex;
   flex-wrap: wrap;
   a {
-    width: calc(100% / 3 - 2rem);
     padding-bottom: 2.5rem;
     margin-bottom: 2.5rem;
     border-bottom: 0.1rem solid ${props => props.theme.alt};
+    width: 100%;
+    @media (min-width: 400px) {
+      width: calc(100% / 2 - 2rem);
+    }
+    @media (min-width: 1023px) {
+      width: calc(100% / 3 - 2rem);
+    }
     &:not(:nth-child(3n)) {
       margin-right: 2rem;
     }
@@ -24,7 +30,13 @@ export const PlainList = styled.div`
   }
   .cat {
     &__img {
-      height: 20vw;
+      height: 50vw;
+      @media (min-width: 400px) {
+        height: 30vw;
+      }
+      @media (min-width: 1023px) {
+        height: 20vw;
+      }
       img {
         width: 100%;
         height: 100%;
@@ -70,7 +82,6 @@ export class CatsList extends Component {
               title={cat.title}
               desc={cat.desc}
               maxLength={150}
-              cats={this.props.cats}
             />
           </Link>
         );

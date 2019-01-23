@@ -72,4 +72,18 @@ router.get('/getSingleCat/:cat', function(req, res, next) {
   );
 });
 
+router.get('/addLike/:cat', function(req, res, next) {
+  db.connect(process.env.DEFAULT_URI).then(
+    () => {
+      db.addLike(req.params.cat).then(response => {
+        res.json({ response });
+        db.disconnect();
+      });
+    },
+    err => {
+      res.status(500).json({ error: true, message: err });
+    }
+  );
+});
+
 module.exports = router;

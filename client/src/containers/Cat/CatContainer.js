@@ -1,17 +1,19 @@
 import { connect } from 'react-redux';
-import { getSingleCat, getCats } from 'actions/cats';
+import { getSingleCat, addLike } from 'actions/cats';
 import { Cat } from 'components/Cat';
 
 const mapStateToProps = state => ({
-  imgUri: state.cats.currentCat.imgUri,
-  title: state.cats.currentCat.title,
-  desc: state.cats.currentCat.desc,
-  cats: state.cats.cats,
+  imgUri: state.cats.currentCat.cat.imgUri,
+  title: state.cats.currentCat.cat.title,
+  desc: state.cats.currentCat.cat.desc,
+  likes: state.cats.currentCat.cat.likes,
+  prev: state.cats.currentCat.prev.title,
+  next: state.cats.currentCat.next.title,
 });
 
 const mapDispatchToProps = {
   getSingleCat,
-  getCats,
+  addLike,
 };
 
 const CatContainer = connect(

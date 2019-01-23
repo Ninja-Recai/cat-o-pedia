@@ -112,7 +112,10 @@ class Form extends Component {
         )}
         {this.props.successMessage && (
           <React.Fragment>
-            <SuccessMessage>{this.props.successMessage}</SuccessMessage>
+            <SuccessMessage>
+              {this.props.successMessage} Return to homepage to see it on the
+              list.
+            </SuccessMessage>
             <img
               src="https://www.wykop.pl/cdn/c3201142/comment_B5mhAeozAjCIB8ZFpKvXChmSl7IwHXBf.gif"
               alt="dancing cat"

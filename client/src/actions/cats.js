@@ -35,3 +35,15 @@ export const getSingleCat = payload => ({
     },
   },
 });
+
+export const addLike = payload => ({
+  type: ActionTypeCat.ADD_LIKE,
+  payload,
+  meta: {
+    fetch: {
+      pathname: `/cats/addLike/${payload}`,
+      type: 'SINGLE',
+      method: 'GET',
+    },
+  },
+});
