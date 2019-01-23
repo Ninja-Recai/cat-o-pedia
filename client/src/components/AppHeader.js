@@ -10,6 +10,7 @@ const PlainAppHeader = styled.header`
   box-shadow: 0 0 20px 15px rgba(0, 0, 0, 0.7);
   z-index: 3;
   position: relative;
+
   ${Container} {
     padding: 1rem 1.5rem 3rem;
   }

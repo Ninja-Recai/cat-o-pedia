@@ -150,7 +150,6 @@ class DB {
         const likes = cat.likes;
 
         cat.likes = likes + 1;
-
         cat.save((err, elem) => {
           resolve(this.getSingleCat(title));
         });
