@@ -81,6 +81,7 @@ export class CatsList extends Component {
               imgUri={cat.imgUri}
               title={cat.title}
               desc={cat.desc}
+              likes={cat.likes}
               maxLength={150}
             />
           </Link>

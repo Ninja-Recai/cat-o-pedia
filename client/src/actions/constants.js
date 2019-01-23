@@ -12,6 +12,7 @@ export const ActionTypeCat = createActionTypes('cats', [
   ...fetchActions('GET_SINGLE_CAT'),
   'ADD_LIKE',
   ...fetchActions('ADD_LIKE'),
+  'CLEAR_CAT',
 ]);
 
 export const ActionTypeForm = createActionTypes('form', [

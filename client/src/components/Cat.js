@@ -5,6 +5,7 @@ import Button from 'components/Button';
 import { Link } from 'react-router-dom';
 
 const PlainCat = styled.div`
+  position: relative;
   .cat {
     &__img {
       width: 100%;
@@ -40,7 +41,9 @@ const PlainCat = styled.div`
     }
 
     &__desc,
-    &__title {
+    &__title,
+    &__likesCount,
+    &__message {
       color: ${props => props.theme.white};
     }
 
@@ -56,6 +59,59 @@ const PlainCat = styled.div`
       height: 0.1rem;
       background-color: ${props => props.theme.alt};
     }
+    &__likes {
+      display: flex;
+      align-items: center;
+      transition: opacity 0.3s linear;
+      @media (min-width: 400px) {
+        margin-left: 2.5rem;
+      }
+      &--disabled {
+        opacity: 0.7;
+      }
+      &:hover {
+        .cat__likesCount {
+          background-color: ${props => props.theme.prim};
+        }
+        .cat__likeKitten {
+          animation: wubba 0.5s linear infinite;
+        }
+      }
+    }
+    &__likesCount {
+      font-weight: 700;
+      width: 3rem;
+      height: 3rem;
+      background-color: ${props => props.theme.alt};
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s linear;
+    }
+    &__message {
+      font-size: ${props => props.theme.fsSm};
+    }
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      @media (max-width: 400px) {
+        flex-wrap: wrap;
+      }
+    }
+    &__loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: ${props => props.theme.alt};
+      z-index: 2;
+    }
   }
   .button-container {
     display: flex;
@@ -63,11 +119,34 @@ const PlainCat = styled.div`
     margin-bottom: 2rem;
     justify-content: space-between;
   }
+  .flex-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  @keyframes wubba {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(0.5rem);
+    }
+    50% {
+      transform: translateX(0);
+    }
+    75% {
+      transform: translateX(-0.5rem);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
 `;
 
 export class Cat extends Component {
   state = {
     catFetched: this.props.maxLength ? true : false,
+    catLiked: false,
   };
   static propTypes = {
     imgUri: PropTypes.string,
@@ -90,18 +169,23 @@ export class Cat extends Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.props.clearCat) {
+      this.props.clearCat();
+    }
+  }
+
   fetchCat = cat => {
     this.props.getSingleCat(cat);
-    setTimeout(() => {
-      this.setState({
-        catFetched: true,
-      });
-    }, 600);
+    this.setState({
+      catFetched: true,
+    });
   };
 
   addLike = e => {
-    this.props.addLike(this.props.title);
-    this.fetchCat(this.props.title);
+    if (!this.state.catLiked) {
+      this.props.addLike(this.props.title);
+    }
   };
 
   render() {
@@ -112,28 +196,65 @@ export class Cat extends Component {
       top = (
         <React.Fragment>
           <div className="button-container">
-            <Link to={`/cat/${this.props.prev}`}>
-              <Button className="margin--top">Previous cat</Button>
-            </Link>
-            <Link to={`/cat/${this.props.next}`}>
-              <Button className="margin--top">Next cat</Button>
-            </Link>
+            {this.props.prev !== '' && (
+              <Link to={`/cat/${this.props.prev}`}>
+                <Button className="margin--top">Previous cat</Button>
+              </Link>
+            )}
+            {this.props.next !== '' && (
+              <Link to={`/cat/${this.props.next}`}>
+                <Button className="margin--top">Next cat</Button>
+              </Link>
+            )}
           </div>
-          <h3 className="cat__title">
-            {this.props.title}
-            <span className="cat__spacer" />
-          </h3>
-          <button onClick={this.addLike}>ADD LIKE</button>
+          <div className="flex-container">
+            <h3 className="cat__title">{this.props.title}</h3>
+            <div
+              className={`cat__likes ${this.state.catLiked &&
+                'cat__likes--disabled'}`}
+            >
+              <img
+                className="cat__likeKitten"
+                onClick={this.addLike}
+                src="https://i.imgur.com/grDMFRK.png"
+                alt="Like kitten"
+                style={{ width: '5rem', marginRight: '1rem' }}
+              />
+              <span className="cat__likesCount">{this.props.likes}</span>
+            </div>
+          </div>
+          <span className="cat__spacer" />
         </React.Fragment>
       );
     } else {
-      bottom = <h3 className="cat__title">{this.props.title}</h3>;
+      bottom = (
+        <header className="cat__header">
+          <h3 className="cat__title">{this.props.title}</h3>
+          <div className="cat__likes">
+            <img
+              className="cat__likeKitten"
+              src="https://i.imgur.com/grDMFRK.png"
+              alt="Like kitten"
+              style={{ width: '2rem', marginRight: '1rem' }}
+            />
+            <span className="cat__likesCount">{this.props.likes}</span>
+          </div>
+        </header>
+      );
     }
 
     return (
       <React.Fragment>
         {this.state.catFetched && (
           <PlainCat className="cat fade-in">
+            {this.props.loading && (
+              <div className="cat__loader .fade-in">
+                <img
+                  src="https://media.giphy.com/media/3o7TKtbdY5oZuiyucg/giphy.gif"
+                  alt="loader"
+                />
+              </div>
+            )}
             {top}
             <div className="cat__img">
               <img src={this.props.imgUri} alt={this.props.title} />

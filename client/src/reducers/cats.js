@@ -61,6 +61,11 @@ export const cats = createReducer(initialState, {
       isFetched: true,
       successMessage: action.payload.message,
       errorMessage: '',
+      currentCat: {
+        cat: action.payload.response.cat,
+        prev: action.payload.response.prev[0],
+        next: action.payload.response.next[0],
+      },
     });
   },
   [ActionTypeCat.ADD_LIKE_FINISHED]: state => R.assoc('isFetched', true, state),
@@ -114,4 +119,6 @@ export const cats = createReducer(initialState, {
   },
   [ActionTypeCat.GET_SINGLE_CAT_FINISHED]: state =>
     R.assoc('isFetched', true, state),
+
+  [ActionTypeCat.CLEAR_CAT]: R.dissoc('currentCat'),
 });

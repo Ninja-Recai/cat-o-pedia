@@ -1,19 +1,25 @@
 import { connect } from 'react-redux';
-import { getSingleCat, addLike } from 'actions/cats';
+import { getSingleCat, addLike, clearCat } from 'actions/cats';
 import { Cat } from 'components/Cat';
+import * as R from 'ramda';
 
-const mapStateToProps = state => ({
-  imgUri: state.cats.currentCat.cat.imgUri,
-  title: state.cats.currentCat.cat.title,
-  desc: state.cats.currentCat.cat.desc,
-  likes: state.cats.currentCat.cat.likes,
-  prev: state.cats.currentCat.prev.title,
-  next: state.cats.currentCat.next.title,
-});
+const mapStateToProps = state => {
+  const { currentCat } = state.cats;
+  return {
+    loading: !currentCat,
+    imgUri: R.pathOr('', ['cat', 'imgUri'], currentCat),
+    title: R.pathOr('', ['cat', 'title'], currentCat),
+    desc: R.pathOr('', ['cat', 'desc'], currentCat),
+    likes: R.pathOr('', ['cat', 'likes'], currentCat),
+    prev: R.pathOr('', ['prev', 'title'], currentCat),
+    next: R.pathOr('', ['next', 'title'], currentCat),
+  };
+};
 
 const mapDispatchToProps = {
   getSingleCat,
   addLike,
+  clearCat,
 };
 
 const CatContainer = connect(

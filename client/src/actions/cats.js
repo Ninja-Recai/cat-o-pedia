@@ -47,3 +47,8 @@ export const addLike = payload => ({
     },
   },
 });
+
+export const clearCat = payload => ({
+  type: ActionTypeCat.CLEAR_CAT,
+  payload,
+});
