@@ -49,14 +49,18 @@ class DB {
   }
 
   saveCat(cat) {
-    const obj = new Cat(cat);
+    const obj = new Cat({
+      imgUri: cat.imgUri || null,
+      title: cat.title || null,
+      desc: cat.desc,
+      likes: 0,
+    });
     return new Promise((resolve, reject) => {
       Cat.findOne(
         {
           imgUri: obj.imgUri || null,
           title: obj.title || null,
           desc: obj.desc || null,
-          likes: 0,
         },
         function(err, cat) {
           if (!cat) {
