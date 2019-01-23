@@ -15,12 +15,15 @@ export const PlainList = styled.div`
     width: 100%;
     @media (min-width: 400px) {
       width: calc(100% / 2 - 2rem);
+      &:not(:nth-child(2n)) {
+        margin-right: 2rem;
+      }
     }
     @media (min-width: 1023px) {
       width: calc(100% / 3 - 2rem);
-    }
-    &:not(:nth-child(3n)) {
-      margin-right: 2rem;
+      &:not(:nth-child(3n)) {
+        margin-right: 2rem;
+      }
     }
     &:hover {
       .cat__img::after {

@@ -189,59 +189,53 @@ export class Cat extends Component {
   };
 
   render() {
-    let top = '';
-    let bottom = '';
-
-    if (!this.props.maxLength) {
-      top = (
-        <React.Fragment>
-          <div className="button-container">
-            {this.props.prev !== '' && (
-              <Link to={`/cat/${this.props.prev}`}>
-                <Button className="margin--top">Previous cat</Button>
-              </Link>
-            )}
-            {this.props.next !== '' && (
-              <Link to={`/cat/${this.props.next}`}>
-                <Button className="margin--top">Next cat</Button>
-              </Link>
-            )}
-          </div>
-          <div className="flex-container">
-            <h3 className="cat__title">{this.props.title}</h3>
-            <div
-              className={`cat__likes ${this.state.catLiked &&
-                'cat__likes--disabled'}`}
-            >
-              <img
-                className="cat__likeKitten"
-                onClick={this.addLike}
-                src="https://i.imgur.com/grDMFRK.png"
-                alt="Like kitten"
-                style={{ width: '5rem', marginRight: '1rem' }}
-              />
-              <span className="cat__likesCount">{this.props.likes}</span>
-            </div>
-          </div>
-          <span className="cat__spacer" />
-        </React.Fragment>
-      );
-    } else {
-      bottom = (
-        <header className="cat__header">
+    const top = !this.props.maxLength && (
+      <React.Fragment>
+        <div className="button-container">
+          {this.props.prev !== '' && (
+            <Link to={`/cat/${this.props.prev}`}>
+              <Button className="margin--top">Previous cat</Button>
+            </Link>
+          )}
+          {this.props.next !== '' && (
+            <Link to={`/cat/${this.props.next}`}>
+              <Button className="margin--top">Next cat</Button>
+            </Link>
+          )}
+        </div>
+        <div className="flex-container">
           <h3 className="cat__title">{this.props.title}</h3>
-          <div className="cat__likes">
+          <div
+            className={`cat__likes ${this.state.catLiked &&
+              'cat__likes--disabled'}`}
+          >
             <img
               className="cat__likeKitten"
+              onClick={this.addLike}
               src="https://i.imgur.com/grDMFRK.png"
               alt="Like kitten"
-              style={{ width: '2rem', marginRight: '1rem' }}
+              style={{ width: '5rem', marginRight: '1rem' }}
             />
             <span className="cat__likesCount">{this.props.likes}</span>
           </div>
-        </header>
-      );
-    }
+        </div>
+        <span className="cat__spacer" />
+      </React.Fragment>
+    );
+    const bottom = this.props.maxLength && (
+      <header className="cat__header">
+        <h3 className="cat__title">{this.props.title}</h3>
+        <div className="cat__likes">
+          <img
+            className="cat__likeKitten"
+            src="https://i.imgur.com/grDMFRK.png"
+            alt="Like kitten"
+            style={{ width: '2rem', marginRight: '1rem' }}
+          />
+          <span className="cat__likesCount">{this.props.likes}</span>
+        </div>
+      </header>
+    );
 
     return (
       <React.Fragment>
